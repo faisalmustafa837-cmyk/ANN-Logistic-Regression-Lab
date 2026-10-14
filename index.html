@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logistic Regression Lab</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f3f6fb; margin:0; color:#202938; }
+    main { max-width:850px; margin:35px auto; background:white; padding:28px; border-radius:14px; box-shadow:0 5px 22px #00000012; }
+    h1 { margin-top:0; } .note { color:#5b6472; }
+    form { margin-top:20px; } select, input { width:100%; padding:10px; border:1px solid #cbd2dc; border-radius:7px; box-sizing:border-box; }
+    label { display:block; font-weight:600; margin:12px 0 6px; }
+    .fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 18px; }
+    button { margin-top:22px; background:#2459c4; color:white; padding:12px 20px; border:0; border-radius:8px; cursor:pointer; font-size:16px; }
+    .result { margin-top:22px; padding:16px; background:#eaf7ee; border-radius:8px; }
+    .error { margin-top:22px; padding:16px; background:#fff0f0; border-radius:8px; }
+    @media(max-width:600px){ main{margin:10px;padding:18px}.fields{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Logistic Regression Prediction</h1>
+  <p class="note">ANN Lab Task — two datasets, two trained Logistic Regression models.</p>
+  <form method="post">
+    <label for="dataset">Choose dataset</label>
+    <select name="dataset" id="dataset" onchange="this.form.submit()">
+      <option value="cancer" {% if selected == 'cancer' %}selected{% endif %}>Breast Cancer Classification</option>
+      <option value="wine" {% if selected == 'wine' %}selected{% endif %}>Wine Classification</option>
+    </select>
+    <div class="fields">
+      {% for field in fields %}
+      <div>
+        <label for="feature_{{ loop.index0 }}">{{ field.label }}</label>
+        <input id="feature_{{ loop.index0 }}" name="feature_{{ loop.index0 }}" type="number" step="any" value="{{ field.default }}" required>
+      </div>
+      {% endfor %}
+    </div>
+    <button type="submit">Predict</button>
+  </form>
+  {% if result %}
+  <div class="result"><h2>Prediction: {{ result }}</h2><p>Model confidence: {{ confidence }}</p></div>
+  {% endif %}
+  {% if error %}<div class="error">{{ error }}</div>{% endif %}
+  <p class="note">Educational demonstration only. The cancer model is not a medical diagnostic tool.</p>
+</main>
+</body>
+</html>
